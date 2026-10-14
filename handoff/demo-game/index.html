@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <title>Buddy Box - splat-engine-three demo</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <canvas id="game"></canvas>
+  <div id="loading">Loading…</div>
+  <header>
+    <h1>Buddy Box</h1>
+    <p id="state">&nbsp;</p>
+  </header>
+  <footer>
+    <label>Character
+      <select id="character">
+        <option value="young-man.vsplat">Young Man</option>
+        <option value="miles-morales.vsplat">Miles Morales</option>
+        <option value="dj-neko.vsplat">DJ Neko</option>
+      </select>
+    </label>
+    <button id="reset">Reset buddy</button>
+    <span class="hint">Grab any body part, drag, and flick to throw.</span>
+  </footer>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

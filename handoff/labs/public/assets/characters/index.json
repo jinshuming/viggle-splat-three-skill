@@ -1,0 +1,51 @@
+[
+  {
+    "id": "asian-actor",
+    "name": "Asian Actor",
+    "file": "characters/asian-actor.vsplat",
+    "pinocId": "7739ba62-52d7-4784-874c-906838b4da4a"
+  },
+  {
+    "id": "man-in-suit",
+    "name": "Man in Suit",
+    "file": "characters/man-in-suit.vsplat",
+    "pinocId": "4beb2e24-12a0-420e-8d36-2c4eae7fac62"
+  },
+  {
+    "id": "young-man",
+    "name": "Young Man",
+    "file": "characters/young-man.vsplat",
+    "pinocId": "adf8f1a4-4b1a-4237-bfa4-78ff0525dfef",
+    "default": true
+  },
+  {
+    "id": "dj-neko",
+    "name": "DJ Neko",
+    "file": "characters/dj-neko.vsplat",
+    "pinocId": "2405a314-ab4e-4742-afb3-ef22c9331c99"
+  },
+  {
+    "id": "chibi-guitarist",
+    "name": "Chibi Guitarist",
+    "file": "characters/chibi-guitarist.vsplat",
+    "pinocId": "670e8843-63a7-4104-9cc6-d16784a01f72"
+  },
+  {
+    "id": "satoru-gojo",
+    "name": "Satoru Gojo",
+    "file": "characters/satoru-gojo.vsplat",
+    "pinocId": "6fff4c02-0827-45a1-9a9e-a8d796647c91"
+  },
+  {
+    "id": "creepy-log-man",
+    "name": "Creepy Log Man",
+    "file": "characters/creepy-log-man.vsplat",
+    "pinocId": "3c648a69-7844-4c2a-a279-2045b873c1c5"
+  },
+  {
+    "id": "miles-morales",
+    "name": "Miles Morales",
+    "file": "characters/miles-morales.vsplat",
+    "pinocId": "d5a0b493-da67-4840-87a7-58b40dcc6216"
+  }
+]

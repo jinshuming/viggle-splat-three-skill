@@ -1,0 +1,301 @@
+[
+ {
+  "name": "swordI",
+  "url": "/assets/items/swordI.glb",
+  "asset_type": "model",
+  "local_transform": {
+   "pos": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "rot": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "scale": 1
+  },
+  "sockets": {
+   "hand_l": {
+    "bone": "hand_l",
+    "transform": {
+     "pos": {
+      "x": 0.043,
+      "y": -0.288,
+      "z": -0.152
+     },
+     "rot": {
+      "x": 123.727,
+      "y": -63.115,
+      "z": -11.025
+     },
+     "scale": 1
+    }
+   },
+   "hand_r": {
+    "bone": "hand_r",
+    "transform": {
+     "pos": {
+      "x": -0.036,
+      "y": 0.27,
+      "z": 0.209
+     },
+     "rot": {
+      "x": 47.504,
+      "y": 64.141,
+      "z": 158.392
+     },
+     "scale": 1
+    }
+   }
+  }
+ },
+ {
+  "name": "axe",
+  "url": "/assets/items/axe.glb",
+  "asset_type": "model",
+  "local_transform": {
+   "pos": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "rot": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "scale": 1
+  },
+  "sockets": {
+   "hand_l": {
+    "bone": "hand_l",
+    "transform": {
+     "pos": {
+      "x": -0.044,
+      "y": -0.009,
+      "z": -0.101
+     },
+     "rot": {
+      "x": 123.727,
+      "y": -63.115,
+      "z": -11.025
+     },
+     "scale": 1
+    }
+   },
+   "hand_r": {
+    "bone": "hand_r",
+    "transform": {
+     "pos": {
+      "x": -0.011,
+      "y": 0.082,
+      "z": 0.123
+     },
+     "rot": {
+      "x": 47.504,
+      "y": 64.141,
+      "z": 158.392
+     },
+     "scale": 1
+    }
+   }
+  }
+ },
+ {
+  "name": "ak47",
+  "url": "/assets/items/ak47.glb",
+  "asset_type": "model",
+  "local_transform": {
+   "pos": {
+    "x": 0,
+    "y": 0,
+    "z": 0.019
+   },
+   "rot": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "scale": 1.1
+  },
+  "sockets": {
+   "hand_l": {
+    "bone": "hand_l",
+    "transform": {
+     "pos": {
+      "x": -0.044,
+      "y": -0.009,
+      "z": -0.101
+     },
+     "rot": {
+      "x": 176.409,
+      "y": 19,
+      "z": 13.84
+     },
+     "scale": 1
+    }
+   },
+   "hand_r": {
+    "bone": "hand_r",
+    "transform": {
+     "pos": {
+      "x": 0.022,
+      "y": -0.01,
+      "z": 0.11
+     },
+     "rot": {
+      "x": 8,
+      "y": 1,
+      "z": 24.138
+     },
+     "scale": 1
+    }
+   }
+  }
+ },
+ {
+  "name": "bow",
+  "url": "/assets/items/bow.glb",
+  "asset_type": "model",
+  "local_transform": {
+   "pos": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "rot": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "scale": 1
+  },
+  "sockets": {
+   "hand_l": {
+    "bone": "hand_l",
+    "transform": {
+     "pos": {
+      "x": 0.004,
+      "y": 0.055,
+      "z": 0.003
+     },
+     "rot": {
+      "x": 152.773,
+      "y": 6.533,
+      "z": -79.279
+     },
+     "scale": 1
+    }
+   },
+   "hand_r": {
+    "bone": "hand_r",
+    "transform": {
+     "pos": {
+      "x": -0.001,
+      "y": -0.084,
+      "z": 0.026
+     },
+     "rot": {
+      "x": 26.633,
+      "y": -0.399,
+      "z": 100.413
+     },
+     "scale": 1
+    }
+   }
+  }
+ },
+ {
+  "name": "shield",
+  "url": "/assets/items/shield.glb",
+  "asset_type": "model",
+  "local_transform": {
+   "pos": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "rot": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+   },
+   "scale": 1
+  },
+  "sockets": {
+   "hand_l": {
+    "bone": "hand_l",
+    "transform": {
+     "pos": {
+      "x": -0.043,
+      "y": -0.009,
+      "z": -0.195
+     },
+     "rot": {
+      "x": -83.199,
+      "y": 8.199,
+      "z": 55.369
+     },
+     "scale": 1
+    }
+   },
+   "hand_r": {
+    "bone": "hand_r",
+    "transform": {
+     "pos": {
+      "x": 0.038,
+      "y": 0.018,
+      "z": 0.199
+     },
+     "rot": {
+      "x": 99.758,
+      "y": 9.358,
+      "z": 0.843
+     },
+     "scale": 1
+    }
+   }
+  }
+ },
+ {
+  "name": "Abyssal Edge",
+  "url": "/assets/items/abyssal_edge.ply",
+  "asset_type": "splat",
+  "sockets": {
+   "hand_l": {
+    "bone": "hand_l",
+    "transform": {
+     "pos": {
+      "x": 0.032,
+      "y": -0.436,
+      "z": -0.33
+     },
+     "rot": {
+      "x": -120.35,
+      "y": 25.006,
+      "z": -15.737
+     },
+     "scale": 0.9
+    }
+   },
+   "hand_r": {
+    "bone": "hand_r",
+    "transform": {
+     "pos": {
+      "x": 0.085,
+      "y": 0.41,
+      "z": 0.299
+     },
+     "rot": {
+      "x": -149.139,
+      "y": -32.937,
+      "z": 149.424
+     },
+     "scale": 0.9
+    }
+   }
+  }
+ }
+]
