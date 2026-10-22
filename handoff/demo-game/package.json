@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "^0.21.0",
-    "@viggle/splat-engine-three": "file:../engine/viggle-splat-engine-three-0.1.0.tgz",
+    "@viggle/splat-engine-three": "file:../engine/viggle-splat-engine-three-0.1.1.tgz",
     "three": "^0.186.1"
   },
   "devDependencies": {

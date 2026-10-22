@@ -13,7 +13,7 @@ mesh). Built and tested against three.js r186. Full reference: `engine/README.md
 ## Install and minimal app
 
 ```bash
-npm install three ./engine/viggle-splat-engine-three-0.1.0.tgz   # or the path your project uses
+npm install three ./engine/viggle-splat-engine-three-0.1.1.tgz   # or the path your project uses
 ```
 
 ```js

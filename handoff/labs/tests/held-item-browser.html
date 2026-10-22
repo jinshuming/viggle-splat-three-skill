@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Held Item Lab</title>
+  <style>
+    :root { --bg: #16161b; --panel: #000c; --line: #ffffff22; --acc: #ffb86b; --dim: #ffffff88; }
+    html, body { margin: 0; height: 100%; background: var(--bg); color: #ddd; font: 13px system-ui, sans-serif; overflow: hidden; }
+    canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+    .panel { position: fixed; background: var(--panel); border-radius: 10px; backdrop-filter: blur(6px); }
+    #left { max-height: calc(100vh - 60px); overflow-y: auto; top: 12px; left: 12px; padding: 10px 12px; width: 250px; }
+    #left label.t { display: block; margin: 8px 0 3px; color: var(--dim); font-size: 11px; text-transform: uppercase; letter-spacing: .05em; }
+    #left label.t:first-child { margin-top: 0; }
+    select { display: block; width: 100%; padding: 4px; background: #222; color: #eee; border: 1px solid var(--line); border-radius: 5px; }
+    .slot { display: grid; grid-template-columns: 74px 1fr; gap: 6px; align-items: center; padding: 3px 4px; border-radius: 6px; border: 1px solid transparent; cursor: pointer; }
+    .slot.sel { border-color: var(--acc); background: #ffffff10; }
+    .slot span { color: #ccc; }
+    #views { display: flex; flex-wrap: wrap; gap: 5px; }
+    button { background: #26262e; color: #ddd; border: 1px solid var(--line); border-radius: 6px; padding: 4px 9px; cursor: pointer; font: inherit; }
+    button:hover { border-color: var(--acc); color: #fff; }
+    #status { margin-top: 8px; color: var(--dim); font-size: 12px; min-height: 1.3em; }
+    #right { top: 12px; right: 12px; bottom: 12px; width: 340px; padding: 10px 14px; overflow-y: auto; }
+    #right h4 { margin: 14px 0 6px; color: var(--acc); font: 600 11px system-ui; text-transform: uppercase; letter-spacing: .06em; }
+    #right h4:first-child { margin-top: 0; }
+    .row { display: grid; grid-template-columns: 62px 1fr 54px; align-items: center; gap: 6px; line-height: 1.9; }
+    .row .v { text-align: right; font: 11px ui-monospace, Menlo, monospace; color: #fff; }
+    input[type=range] { width: 100%; accent-color: var(--acc); margin: 0; }
+    .mir { display: flex; gap: 14px; margin-top: 4px; }
+    textarea { width: 100%; box-sizing: border-box; height: 190px; background: #0b0b0f; color: #fec; border: 1px solid var(--line); border-radius: 6px; font: 11px ui-monospace, Menlo, monospace; padding: 6px; resize: vertical; }
+    .help { color: var(--dim); font-size: 11px; line-height: 1.5; margin: 6px 0; }
+    .grip-row { display: grid; grid-template-columns: 62px repeat(3, 1fr); gap: 4px; margin: 5px 0; align-items: center; }
+    input[type=number] { width: 100%; box-sizing: border-box; background: #222; color: #eee; border: 1px solid var(--line); padding: 4px; }
+    textarea.bad { border-color: #f66; }
+    .btns { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+    #note { color: #fc6; font-size: 11px; min-height: 1em; margin-top: 4px; }
+    #hint { position: fixed; bottom: 10px; left: 12px; color: var(--dim); font-size: 11px; }
+    @media (min-width: 761px) and (max-width: 1100px) { #left { width: 190px; } #right { width: 280px; } }
+    @media (max-width: 760px) { #right { top: auto; height: 46vh; width: auto; left: 8px; right: 8px; bottom: 8px; } #left { width: 190px; } }
+  </style>
+</head>
+<body>
+  <canvas id="c"></canvas>
+  <div id="left" class="panel">
+    <label class="t">Character <select id="charSel"></select></label>
+    <label class="t">Calibration pose / 骨骼姿态 <select id="clipSel"></select></label>
+    <div class="btns"><button id="rest">Rest pose</button><button id="pause">Pause</button></div>
+    <label class="t">Motion time <input id="time" type="range" min="0" max="1" step="0.001" value="0"></label>
+    <div id="timeLabel" class="help"></div>
+    <label><input id="axes" type="checkbox" checked> Show axes / 坐标轴</label>
+    <div class="help">RGB = XYZ. Large: bone · small: grip frame · faint: asset origin.<br>Rest pose → align grip → check motions.</div>
+    <label class="t">Sockets (click to edit its fit)</label>
+    <div id="slots"></div>
+    <label class="t">Camera</label>
+    <div id="views"></div>
+    <div id="status">Loading…</div>
+  </div>
+  <div id="right" class="panel">
+    <h4>Item: <span id="fitName">-</span></h4>
+    <select id="editTarget"><option value="fit">Socket fit / 手部挂点</option><option value="asset">Asset local_transform / 物品原点与朝向</option></select>
+    <div class="help" id="editHint"></div>
+    <div id="fitCtl"></div>
+    <div class="mir"><label><input type="checkbox" data-m="x"> mirror x</label><label><input type="checkbox" data-m="y"> mirror y</label><label><input type="checkbox" data-m="z"> mirror z</label></div>
+    <div id="note"></div>
+    <details>
+      <summary>Set source grip / 定义源模型握持坐标</summary>
+      <div class="help">Coordinates in loaded asset root space (x, y, z). Forward = tip/barrel (+Z after correction); up fixes roll (+Y). Apply replaces local_transform for all sockets. Existing fits may need adjustment.</div>
+      <div id="gripCtl"></div>
+      <div class="grip-row"><span>Unit scale</span><input id="gripScale" aria-label="Grip unit scale" type="number" step="0.01" value="1" min="0.000001"></div>
+      <button id="applyGrip">Apply grip frame</button>
+    </details>
+    <h4>Item JSON <span style="color:var(--dim);font-weight:400;text-transform:none">(two-way: edit to apply)</span></h4>
+    <textarea id="json" spellcheck="false"></textarea>
+    <div class="btns">
+      <button id="copy">Copy item JSON</button>
+      <button id="copyAll">Copy all items</button>
+      <button id="resetFit">Reset selected transform</button>
+      <button id="snap">Screenshot</button>
+    </div>
+  </div>
+  <div id="hint">drag = orbit · wheel = zoom · agents: <code>window.heldItemLab</code></div>
+  <pre id="check" style="position:fixed;top:0;left:300px;z-index:100;background:#000e;color:#8f8;padding:12px;font-size:12px">Checking…</pre>
+<script type="module">
+import '/src/held-item-demo.js';
+import * as THREE from 'three';
+const out=document.getElementById('check'), lab=window.heldItemLab, results=[];
+function assert(ok,msg) { if(!ok) throw new Error(msg); }
+function near(a,b) { return a.every((v,i)=>Math.abs(v-b[i])<1e-6); }
+async function check(name,fn) { try { await fn(); results.push('PASS '+name); } catch(e) { results.push('FAIL '+name+': '+e.message); } out.textContent=results.join('\n'); }
+const original=lab.getItem('swordI');
+const rest=lab.boneWorld('hand_r');
+await check('boot uses actual fixed rest pose',async()=>{
+ assert(lab.poseState().motion==='rest' && lab.poseState().paused,'not resting');
+ await new Promise(r=>setTimeout(r,100)); assert(near(rest,lab.boneWorld('hand_r')),'rest drift');
+});
+await check('seek evaluates and freezes a moving pose',async()=>{
+ await lab.playMotion('walk-in-place');lab.seek(0.4);
+ const b=lab.boneWorld('hand_r'); assert(!near(rest,b),'pose did not evaluate');
+ await new Promise(r=>setTimeout(r,100)); assert(near(b,lab.boneWorld('hand_r')),'paused drift');
+ assert(Math.abs(lab.poseState().time-0.4)<1e-6,'wrong time');
+});
+await check('return from animation restores the same rest frame',()=>{
+ lab.restPose();assert(near(rest,lab.boneWorld('hand_r')),'rest differs');
+});
+await check('one asset normalization updates both equipped hand instances',async()=>{
+ await lab.equip('hand_l','swordI');
+ lab.setGrip('hand_r',{position:{x:0.2,y:0.1,z:0.05},forward:{x:0,y:1,z:0},up:{x:0,y:0,z:1},scale:0.5});
+ // screenshot forces immediate placement using latest fits
+ lab.screenshot();
+ for(const sock of ['hand_r','hand_l']) {
+  const d=lab.getItemJson(sock);
+  const point=new THREE.Vector3(0.2,0.1,0.05).applyMatrix4(new THREE.Matrix4().fromArray(lab.itemWorld(sock)));
+  const f=d.sockets[sock].transform;
+  const expected=new THREE.Vector3(f.pos.x,f.pos.y,f.pos.z).applyMatrix4(new THREE.Matrix4().fromArray(lab.boneWorld(sock)));
+  assert(point.distanceTo(expected)<1e-6,'grip detached on '+sock);
+ }
+});
+await check('invalid grip is rejected without mutating the definition',()=>{
+ const before=JSON.stringify(lab.getItem('swordI'));let rejected=false;
+ try {lab.setGrip('hand_r',{position:{x:0,y:0,z:0},forward:{x:0,y:0,z:1},up:{x:0,y:0,z:1}});}catch{rejected=true;}
+ assert(rejected && before===JSON.stringify(lab.getItem('swordI')),'invalid mutation');
+});
+await check('character swap keeps equipment and returns to rest',async()=>{
+ await lab.loadCharacter('man-in-suit');
+ assert(lab.poseState().motion==='rest','lost rest');
+ assert(lab.getLoadout().hand_r==='swordI' && lab.boneWorld('hand_r'),'lost equipment/bone');
+});
+await lab.loadCharacter('young-man');
+lab.setLocalTransform('hand_r',original.local_transform);
+await lab.equip('hand_l','shield');lab.restPose();
+out.dataset.result=results.some(r=>r.startsWith('FAIL'))?'FAIL':'PASS';
+</script>
+</body>
+</html>

@@ -8,7 +8,7 @@ skills that let an AI agent change a character's body and put items in its hands
 
 | I want to... / 我想... | Go to |
 | --- | --- |
-| Use the engine in my own three.js app / 在自己的项目里用引擎 | [`engine/`](engine/): `viggle-splat-engine-three-0.1.0.tgz` + its [README](engine/README.md) |
+| Use the engine in my own three.js app / 在自己的项目里用引擎 | [`engine/`](engine/): `viggle-splat-engine-three-0.1.1.tgz` + its [README](engine/README.md) |
 | See a complete game built on it / 看完整的游戏示例 | [`demo-game/`](demo-game/) (Buddy Box: grab a character, throw it, it ragdolls) |
 | Try body shape and held items interactively / 交互体验体型与手持物 | [`labs/`](labs/) (two lab pages, each with an agent API) |
 | Give my AI agent the ability to operate characters / 让我的 agent 能操作角色 | [`skills/`](skills/): copy the folders you need into your agent's skills directory |
@@ -21,6 +21,7 @@ skills/
   splat-engine-three/   base skill: load, animate, light, render, debug a character
   body-shape/           change proportions: head, legs, girth, size, asymmetric limbs
   held-item/            attach weapons, shields, hats to hands / head / back, tune each fit
+  viggle-motion-edit/   inspect and edit GLB motions (86 body bones or full 441): face tracks, facing, foot contact
 ```
 
 ## Quick start / 快速开始
@@ -49,8 +50,29 @@ small dependency-free module (`body-shape.js`, `held-item.js`) that you copy int
 | --- | --- | --- |
 | `body-shape` | a `BodyShape` JSON, applied with `applyBodyShape(character, shape)` | `labs/body-shape.html` |
 | `held-item` | an item JSON (Fight3D items-manifest shape), equipped with `ItemRig` | `labs/held-item.html` |
+| `viggle-motion-edit` | an edited motion `.glb`, checked with `scripts/inspect_motion.py` (Python 3; accepts 86-bone body-only and 441-bone motions) | none; verify by playing it in your app or the labs |
 
-## Verified in this package / 已验证
+## Held item calibration / 手持物校准
+
+The Held Item Lab now defaults to **rest pose**. Use the Rest pose button for calibration,
+then preview a motion with pause and time scrubbing. The transform editor separates
+bone-local socket fits from the item-wide `local_transform`; the source-grip tool converts
+a known grip point and forward/up directions into that existing transform format.
+See `skills/held-item/SKILL.md` for coordinates, agent APIs and validation workflow.
+Existing catalog JSON remains compatible. Renormalizing a catalog asset requires checking
+all its socket fits. Source grip detection and finger / two-hand IK are not provided.
+
+Validation for the revised held-item workflow:
+
+```bash
+cd labs
+npm run test:held-item      # source grip math, legacy catalog, animated attachment
+npm run build
+# With npm run dev running, open /tests/held-item-browser.html
+# Six browser checks cover rest pose, seek, both hands, invalid inputs, character swap.
+```
+
+## Verified in the original package / 原包验证记录
 
 - `engine/`: the tarball is the exact build (same sha1) the original demos ran on, and its contents match the unpacked `package/` folder.
 - `demo-game/` and `labs/`: fresh `npm install` + `npm run build` pass; dev servers run with no console errors.

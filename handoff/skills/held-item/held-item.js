@@ -75,6 +75,34 @@ export function itemLocalMatrix(fit, localTransform, out = new THREE.Matrix4()) 
   return out;
 }
 
+/** Build the existing local_transform from a grip frame in the loaded asset's root space.
+ * +Z is the item's forward/tip/barrel direction; +Y fixes its up/roll direction.
+ * Result maps the grip to (0,0,0), forward to +Z, up to +Y, with positive uniform scale.
+ * Supply coordinates AFTER the GLB's internal node transforms. Does not guess from bounds.
+ */
+export function normalizationFromGrip({ position, forward, up, scale = 1 }) {
+  const vector = (v, name) => {
+    if (!v || !['x', 'y', 'z'].every((k) => Number.isFinite(v[k]))) throw new Error(`${name} needs finite x/y/z`);
+    return new THREE.Vector3(v.x, v.y, v.z);
+  };
+  const grip = vector(position, 'position');
+  const z = vector(forward, 'forward');
+  const yHint = vector(up, 'up');
+  if (!Number.isFinite(scale) || scale <= 0) throw new Error('scale must be positive');
+  if (z.lengthSq() < 1e-12 || yHint.lengthSq() < 1e-12) throw new Error('forward/up must be nonzero');
+  z.normalize(); yHint.normalize();
+  const x = new THREE.Vector3().crossVectors(yHint, z);
+  if (x.lengthSq() < 1e-8) throw new Error('forward and up must not be parallel');
+  x.normalize();
+  const y = new THREE.Vector3().crossVectors(z, x).normalize();
+  const rotation = new THREE.Matrix4().makeBasis(x, y, z).transpose();
+  const q = new THREE.Quaternion().setFromRotationMatrix(rotation);
+  const pos = grip.multiplyScalar(-scale).applyQuaternion(q);
+  const e = new THREE.Euler().setFromQuaternion(q, 'ZYX');
+  return { pos: { x: pos.x, y: pos.y, z: pos.z },
+    rot: { x: e.x / D, y: e.y / D, z: e.z / D }, scale };
+}
+
 // ---------------------------------------------------------------------------------------------
 // Loading
 // ---------------------------------------------------------------------------------------------
