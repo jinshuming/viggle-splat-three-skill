@@ -1,0 +1,12 @@
+{
+  "name": "hotel-lobby-preview",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": { "dev": "vite --host 127.0.0.1 --port 5181 --strictPort" },
+  "dependencies": {
+    "@viggle/splat-engine-three": "file:/Users/chenmo/Desktop/Dev/viggle-splat-three/handoff/engine/viggle-splat-engine-three-0.1.1.tgz",
+    "three": "^0.186.1"
+  },
+  "devDependencies": { "vite": "^8.3.4" }
+}

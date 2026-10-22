@@ -22,6 +22,7 @@ skills/
   body-shape/           change proportions: head, legs, girth, size, asymmetric limbs
   held-item/            attach weapons, shields, hats to hands / head / back, tune each fit
   viggle-motion-edit/   inspect and edit GLB motions (86 body bones or full 441): face tracks, facing, foot contact
+  motion-segment-repair/ repair one segment of a 441-bone motion (e.g. an arm that should hang or swing): check in a timeline viewer, user marks the target on a screenshot, calibrate, repair, verify
 ```
 
 ## Quick start / 快速开始
@@ -50,6 +51,7 @@ small dependency-free module (`body-shape.js`, `held-item.js`) that you copy int
 | --- | --- | --- |
 | `body-shape` | a `BodyShape` JSON, applied with `applyBodyShape(character, shape)` | `labs/body-shape.html` |
 | `held-item` | an item JSON (Fight3D items-manifest shape), equipped with `ItemRig` | `labs/held-item.html` |
+| `motion-segment-repair` | a repaired motion `.glb` (one limb, one frame range, smooth blend back), original kept in `_backup/` | a timeline + frame-number viewer (`assets/viewer-template/`) |
 | `viggle-motion-edit` | an edited motion `.glb`, checked with `scripts/inspect_motion.py` (Python 3; accepts 86-bone body-only and 441-bone motions) | none; verify by playing it in your app or the labs |
 
 ## Held item calibration / 手持物校准
